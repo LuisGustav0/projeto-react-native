@@ -33,12 +33,8 @@ export default class Contador extends Component {
 
                 <TouchableHighlight 
                     style={styles.button}
-                    onPress={() => {
-                        this.onIncrementar()
-                    }}
-                    onLongPress={() => {
-                        this.onLimpar()
-                    }}
+                    onPress={() => this.onIncrementar()}
+                    onLongPress={() => this.onLimpar()}
                 >
                     <Text style={styles.textButton}>
                         Imcrementar/Zerar
