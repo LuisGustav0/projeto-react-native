@@ -12,19 +12,19 @@ const Inverter = props => {
 
 const MegaSena = props => {
     const [min, max] = [1, 60]
-    const numeros = Array(props.numeros || 6).fill(0)
+    const numero = Array(props.numero || 6).fill(0)
 
-    for (let i = 0; i < numeros.length; i++) {
+    for (let i = 0; i < numero.length; i++) {
         let novo = 0
-        while (numeros.includes(novo)) {
+        while (numero.includes(novo)) {
             novo = Math.floor(Math.random() * (max - min + 1)) + min
         }
-        numeros[i] = novo
+        numero[i] = novo
     }
 
-    numeros.sort((a, b) => a - b)
+    numero.sort((a, b) => a - b)
     return <Text style={styles.textView}>
-                {numeros.join(', ')}
+                {numero.join(', ')}
             </Text>
 }
 

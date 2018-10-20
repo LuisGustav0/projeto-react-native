@@ -6,10 +6,7 @@ import {
 import HelloWorld from './componentes/HelloWorld';
 import ParOuImpar from './componentes/ParOuImpar';
 //import Inverter  from './componentes/Multi'; import por export padrao
-import Multi, { 
-  Inverter,
-  MegaSena 
-} from './componentes/Multi';
+import Inverter, { MegaSena } from './componentes/Multi';
 
  export default class App extends Component {
    render() {
@@ -20,7 +17,7 @@ import Multi, {
           <ParOuImpar numero={15} />
 
           <Inverter texto='React Nativo!' />
-				  <MegaSena numeros={9} />
+				  <MegaSena numeros={6} />
         </View>
       );
    }

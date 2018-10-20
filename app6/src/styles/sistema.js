@@ -12,7 +12,17 @@ export default StyleSheet.create({
         borderRadius: 10,
         borderWidth: 2,
         borderColor: '#222',
-        fontSize: 24,
+        fontSize: 18,
         fontWeight: 'bold'
+    },
+    textButton: {
+        color: '#FFF'
+    },  
+    button: {
+        marginTop:20,
+        marginHorizontal: 20,
+        alignItems: 'center',
+        backgroundColor: '#40C4FF',
+        padding: 10
     }
 });
