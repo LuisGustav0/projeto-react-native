@@ -24,5 +24,14 @@ export default StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#40C4FF',
         padding: 10
+    },
+    input: {
+        height: 70,
+        fontSize: 40,
+        borderColor: 'gray',
+        borderWidth: 1
+    },
+    fonte40: {
+        fontSize: 40
     }
 });
