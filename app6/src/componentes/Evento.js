@@ -20,7 +20,7 @@ export default class Evento extends Component {
     render() {
         return (
             <View> 
-                <Text styles={styles.fonte40}> 
+                <Text style={styles.fonte40}> 
                     {this.state.texto}
                 </Text>
                 
