@@ -30,8 +30,10 @@ export default class Agenda extends React.Component {
         showAddTask: false
     }
 
-    componentDidMount() {
-        this.onFilterTasks();
+    componentDidMount = async () => {
+        const data = await AsyncStorage.getItem('tasks')
+        const tasks = JSON.parse(data) || []
+        this.setState({ tasks }, this.onFilterTasks)
     }
 
     onAddTask = task => {
@@ -71,6 +73,8 @@ export default class Agenda extends React.Component {
         this.setState({
             visibleTasks
         })
+
+        AsyncStorage.setItem('tasks', JSON.stringify(this.state.tasks))
     }
 
     onToggleFilter = () => {
