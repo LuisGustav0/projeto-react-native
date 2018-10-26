@@ -57,7 +57,7 @@ export const Aluno = props =>
 
 export default props => {
     const renderItem = ({ item }) => {
-        return <Aluno {...item} />
+        return <Aluno {...item} />  
     }
 
     return (
