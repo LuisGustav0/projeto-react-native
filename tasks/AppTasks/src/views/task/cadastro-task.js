@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import {
     Modal,
     View,
@@ -58,14 +58,18 @@ var styles = StyleSheet.create({
     }
 })
 
-const initialState = {
-    description: '',
-    date: new Date()
-}
-
 export default class CadastroTask extends React.Component {
-    state = {
-        ...initialState
+    constructor(props) {
+        super(props)
+
+        this.state = this.getInitialState()
+    }
+
+    getInitialState = () => {
+        return {
+            description: '',
+            date: new Date()
+        }
     }
 
     onSave = () => {
@@ -77,7 +81,7 @@ export default class CadastroTask extends React.Component {
         const data = { ...this.state }
         this.props.onSave(data)
         this.setState({
-            ...initialState
+            
         })
     }
 
@@ -121,6 +125,11 @@ export default class CadastroTask extends React.Component {
                 visible={this.props.isVisible}
                 animationType='slide'
                 transparent={true}
+                onShow={() => 
+                    this.setState({
+                        ...this.getInitialState()
+                    })
+                }
             >
                 <TouchableWithoutFeedback onPress={this.props.onCancel}>
                     <View style={styles.offset}></View>
