@@ -93,9 +93,9 @@ export default class Auth extends React.Component {
                 email: this.state.email,
                 password: this.state.password
             })
-
+            
             axios.defaults.headers.common['Authorization'] = `bearer ${res.data.token}`
-
+            
             AsyncStorage.setItem('userData', JSON.stringify(res.data))
 
             this.props.navigation.navigate('Home', res.data)
