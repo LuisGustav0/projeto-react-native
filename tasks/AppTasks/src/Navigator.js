@@ -6,6 +6,8 @@ import {
 
 import CustomStyle from './CustomStyle'
 
+import Menu from './views/menu/Menu'
+
 import Auth from './views/auth/Auth'
 import Agenda from './views/agenda/Agenda'
 
@@ -42,6 +44,7 @@ const MenuRoutes = {
 
 const MenuConfig = {
     initialRouteName: 'Today',
+    contentComponent: Menu,
     contentOptions: {
         labelStyle: {
             fontFamily: CustomStyle.fontFamily,

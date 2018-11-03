@@ -3,14 +3,14 @@ import CustomStyle from '../../CustomStyle'
 
 export default StyleSheet.create({
     container: {
-        flex: 1,
+        flex: 1
     },
     background: {
-        flex: 3,
+        flex: 3
     },
     titleBar: {
         flex: 1,
-        justifyContent: 'flex-end',
+        justifyContent: 'flex-end'
     },
     title: {
         fontFamily: this.fontFamily,
