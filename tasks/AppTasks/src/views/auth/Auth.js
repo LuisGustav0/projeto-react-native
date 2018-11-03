@@ -3,14 +3,21 @@ import {
     StyleSheet,
     View,
     Text,
-    TextInput,
     ImageBackground,
     TouchableOpacity,
     Alert
 } from 'react-native'
 
-import CustomStyle from '../../CustomStyle';
+import axios from 'axios'
+import {
+    server,
+    showError
+} from '../../common'
+
 import backgroundImage from '../../../assets/imgs/login.jpg'
+import InputText from '../../componentes/inputText/InputText'
+
+import CustomStyle from '../../CustomStyle';
 
 const styles = StyleSheet.create({
     background: {
@@ -61,15 +68,59 @@ export default class Auth extends React.Component {
         confirmPassword: ''
     }
 
+    onCadastrarUsuario = async () => {
+        try {
+            await axios.post(`${server}/user`, {
+                name: this.state.name,
+                email: this.state.email,
+                password: this.state.password,
+                confirmPassword: this.state.confirmPassword
+            })
+
+            Alert.alert('Sucesso!', 'Usuário cadastrado.')
+            this.setState({
+                stageNew: false
+            })
+        } catch (err) {
+            showError(err)
+        }
+    }
+
+    onSignup = async () => {
+        try {
+            const res = await axios.post(`${server}/signin`, {
+                email: this.state.email,
+                password: this.state.password
+            })
+
+            axios.defaults.headers.common['Authorization'] = `bearer ${res.data.token}`
+            this.props.navigation.navigate('Home')
+        } catch (err) {
+            showError(err)
+        }
+    }
+
     signinOrSignup = () => {
         if (this.state.stageNew) {
-            Alert.alert('Sucesso!', 'Criar conta')
+            this.onCadastrarUsuario()
         } else {
-            Alert.alert('Sucesso!', 'Logar')
+            this.onSignup()
         }
     }
 
     render() {
+        const validations = [];
+        validations.push(this.state.email && this.state.email.includes('@'))
+        validations.push(this.state.password && this.state.password.length >= 6)
+
+        if (this.state.stageNew) {
+            validations.push(this.state.name && this.state.name.trim())
+            validations.push(this.state.confirmPassword)
+            validations.push(this.state.password === this.state.confirmPassword)
+        }        
+
+        const validForm = validations.reduce((all, v) => all && v)
+
         return (
             <ImageBackground
                 source={backgroundImage}
@@ -83,8 +134,9 @@ export default class Auth extends React.Component {
                         {this.state.stageNew ? 'Crie sua conta' : 'Informe sua conta'}
                     </Text>
                     {
-                        this.state.stageNew && 
-                        <TextInput
+                        this.state.stageNew &&
+                        <InputText
+                            icon='user'
                             placeholder='Nome'
                             style={styles.input}
                             value={this.state.name}
@@ -92,14 +144,17 @@ export default class Auth extends React.Component {
                         />
                     }
 
-                    <TextInput
+                    <InputText
+                        icon='at'
                         placeholder='E-Mail'
                         style={styles.input}
                         value={this.state.email}
                         onChangeText={email => this.setState({ email })}
                     />
 
-                    <TextInput
+                    <InputText
+                        icon='lock'
+                        secureTextEntry={true}
                         placeholder='Senha'
                         style={styles.input}
                         value={this.state.password}
@@ -107,8 +162,10 @@ export default class Auth extends React.Component {
                     />
 
                     {
-                        this.state.stageNew && 
-                        <TextInput
+                        this.state.stageNew &&
+                        <InputText
+                            icon='lock'
+                            secureTextEntry={true}
                             placeholder='Confirmação'
                             style={styles.input}
                             value={this.state.confirmPassword}
@@ -116,21 +173,26 @@ export default class Auth extends React.Component {
                         />
                     }
 
-                    <TouchableOpacity onPress={this.signinOrSignup}>
-                        <View style={styles.button}>
+                    <TouchableOpacity 
+                        disabled={!validForm}
+                        onPress={this.signinOrSignup}>
+                        <View 
+                            style={[styles.button,
+                                     !validForm ? { backgroundColor: '#AAA' } : {}
+                            ]}>
                             <Text style={styles.buttonText}>
                                 {this.state.stageNew ? 'Registrar' : 'Entrar'}
                             </Text>
                         </View>
-                    </TouchableOpacity>    
+                    </TouchableOpacity>
                 </View>
 
-                <TouchableOpacity 
+                <TouchableOpacity
                     style={{ padding: 10 }}
                     onPress={() => {
-                       this.setState({
+                        this.setState({
                             stageNew: !this.state.stageNew
-                       }) 
+                        })
                     }}>
                     <View>
                         <Text style={styles.buttonText}>
