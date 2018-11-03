@@ -22,10 +22,18 @@ import AgendaStyle from './AgendaStyle'
 import Task from '../../componentes/task/Task';
 
 import imgToday from '../../../assets/imgs/today.jpg'
+import imgTomorrow from '../../../assets/imgs/tomorrow.jpg'
+import imgWeek from '../../../assets/imgs/week.jpg'
+import imgMonth from '../../../assets/imgs/month.jpg'
 import CustomStyle from '../../CustomStyle';
 
 import ActionButton from 'react-native-action-button'
 import CadastroTask from '../task/cadastro-task'
+
+const TODAY = 0
+const TOMORROW = 1
+const WEEK = 7
+const MONTH = 30
 
 export default class Agenda extends React.Component {
     state = {
@@ -53,7 +61,9 @@ export default class Agenda extends React.Component {
 
     onLoadTasks = async () => {
         try {
-            const maxDate = moment().format('YYYY-MM-DD 23:59')
+            const maxDate = moment()
+                .add({ days: this.props.daysAhead })
+                .format('YYYY-MM-DD 23:59')
             const res = await axios.get(`${server}/task?date=${maxDate}`)
 
             this.setState({
@@ -108,6 +118,31 @@ export default class Agenda extends React.Component {
     }
 
     render() {
+        let styleColor = null;
+        let image = null;
+
+        switch (this.props.daysAhead) {
+            case TODAY: 
+                styleColor = CustomStyle.colors.today
+                image = imgToday
+            break;
+
+            case TOMORROW: 
+                styleColor = CustomStyle.colors.tomorrow
+                image = imgTomorrow
+            break;
+
+            case WEEK: 
+                styleColor = CustomStyle.colors.week
+                image = imgWeek
+            break;
+
+            case MONTH: 
+                styleColor = CustomStyle.colors.month
+                image = imgMonth
+            break;
+        }
+
         return (
             <View style={AgendaStyle.container}>
                 <CadastroTask
@@ -121,10 +156,19 @@ export default class Agenda extends React.Component {
                 />
 
                 <ImageBackground
-                    source={imgToday}
+                    source={image}
                     style={AgendaStyle.background}
                 >
                     <View style={AgendaStyle.iconBar}>
+                        <TouchableOpacity
+                                onPress={() => this.props.navigation.openDrawer()}>
+                                <Icon 
+                                    name='bars' 
+                                    size={20}
+                                    color={CustomStyle.colors.secondary} 
+                                />
+                        </TouchableOpacity>
+
                         <TouchableOpacity
                             onPress={this.onToggleFilter}
                         >
@@ -136,7 +180,7 @@ export default class Agenda extends React.Component {
                     </View>
                     <View style={AgendaStyle.titleBar}>
                         <Text style={AgendaStyle.title}>
-                            Hoje
+                            {this.props.title}
                         </Text>
 
                         <Text style={AgendaStyle.subtitle}>
@@ -158,7 +202,7 @@ export default class Agenda extends React.Component {
                 </View>
 
                 <ActionButton
-                    buttonColor={CustomStyle.colors.today}
+                    buttonColor={styleColor}
                     onPress={() => {
                         this.setState({ showAddTask: true })
                     }}

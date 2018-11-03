@@ -17,14 +17,14 @@ export default StyleSheet.create({
         color: CustomStyle.colors.secondary,
         fontSize: 50,
         marginLeft: 20,
-        marginBottom: 10,
+        marginBottom: 10
     },
     subtitle: {
         fontFamily: this.fontFamily,
         color: CustomStyle.colors.secondary,
         fontSize: 20,
         marginLeft: 20,
-        marginBottom: 30,
+        marginBottom: 30
     },
     taksContainer: {
         flex: 7,
@@ -33,6 +33,6 @@ export default StyleSheet.create({
         marginTop: 10,
         marginHorizontal: 20,
         flexDirection: 'row',
-        justifyContent: 'flex-end',
+        justifyContent: 'space-between'
     }
 })
